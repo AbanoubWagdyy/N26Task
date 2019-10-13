@@ -1,20 +1,15 @@
 package net.n26.ui.marketPrice
 
 import android.graphics.Color
-import android.graphics.DashPathEffect
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.NonNull
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IFillFormatter
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.utils.Utils
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_market_price.*
 import javax.inject.Inject
@@ -24,9 +19,6 @@ import net.n26.di.qualifiers.ViewModelInjection
 import net.n26.di.ViewModelInjectionField
 import net.n26.ui.base.BaseFragment
 import net.n26.util.DateAxisValueFormatter
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 class MarketPriceFragment : BaseFragment() {
 

@@ -2,7 +2,7 @@ package net.n26.data.model
 
 import com.google.gson.annotations.SerializedName
 
-class MarketPriceResponse(throwable: Throwable) {
+class MarketPriceResponse {
 
     @SerializedName("description")
     var description: String = ""
@@ -17,5 +17,13 @@ class MarketPriceResponse(throwable: Throwable) {
     @SerializedName("values")
     var values: List<Value>? = null
 
-    var throwable: Throwable? = throwable
+    var throwable: Throwable? = null
+
+    constructor() {
+
+    }
+
+    constructor(throwable: Throwable) {
+        this.throwable = throwable
+    }
 }
