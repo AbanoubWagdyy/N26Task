@@ -32,5 +32,4 @@ interface AppComponent {
     }
 
     fun inject(app: App)
-
 }

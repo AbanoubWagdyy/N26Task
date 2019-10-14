@@ -1,8 +1,12 @@
 package net.n26.data
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import net.n26.data.model.MarketPriceResponse
 import net.n26.data.model.Resource
@@ -11,20 +15,19 @@ import javax.inject.Inject
 
 class DataRepository @Inject constructor(val mServiceApi: ServiceApi) : RepositorySource {
 
-    override fun getMarketPrice(): LiveData<Resource<MarketPriceResponse>> {
+    val liveData = MutableLiveData<Resource<MarketPriceResponse>>()
 
-        return LiveDataReactiveStreams.fromPublisher<Resource<MarketPriceResponse>>(
-            mServiceApi.getMarketPrice()
-                .onErrorReturn { throwable ->
-                    val marketPriceResponse = MarketPriceResponse(throwable)
-                    marketPriceResponse
-                }
-                .map { marketPrice ->
-                    Resource.success(
-                        marketPrice
-                    )
-                }
-                .subscribeOn(Schedulers.io())
-        )
+    @SuppressLint("CheckResult")
+    override fun getMarketPrice(): MutableLiveData<Resource<MarketPriceResponse>> {
+        mServiceApi.getMarketPrice()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                liveData.value = Resource.success(it)
+            },{
+                liveData.value = Resource.error(it,null)
+            })
+        return liveData
     }
 }

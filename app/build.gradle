@@ -22,6 +22,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+}
+
+
+android.applicationVariants.all {
+    def aptOutputDir = new File(buildDir, "generated/source/kapt/${it.unitTestVariant.dirName}")
+    it.unitTestVariant.addJavaSourceFoldersToModel(aptOutputDir)
 }
 
 dependencies {
@@ -46,6 +60,12 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:${dagger_version}"
     kapt "com.google.dagger:dagger-compiler:${dagger_version}"
     kapt "com.google.dagger:dagger-android-processor:${dagger_version}"
+
+    testImplementation "com.google.dagger:dagger:${dagger_version}"
+    testImplementation "com.google.dagger:dagger-android:${dagger_version}"
+    testImplementation "com.google.dagger:dagger-android-support:${dagger_version}"
+    kaptTest "com.google.dagger:dagger-compiler:${dagger_version}"
+    kaptTest "com.google.dagger:dagger-android-processor:${dagger_version}"
 
     //Glide
     def glide_version = "4.9.0"
@@ -81,6 +101,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     testImplementation 'org.mockito:mockito-core:2.21.0'
+    testImplementation 'org.robolectric:robolectric:3.8'
 
     def reactivestreams_version = "1.1.1"
     implementation "android.arch.lifecycle:reactivestreams:$reactivestreams_version"

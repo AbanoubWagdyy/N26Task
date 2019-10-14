@@ -1,5 +1,6 @@
 package net.n26
 
+import io.github.philippeboisney.retrokotlin.base.BaseTest
 import net.n26.data.RepositorySource
 import net.n26.di.components.DaggerAppComponent
 import net.n26.di.modules.RepositoryModule
@@ -19,18 +20,10 @@ import org.mockito.MockitoAnnotations
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class ExampleUnitTest : BaseTest() {
 
     @Mock
     private val repository: RepositorySource? = null
-
-
-    @Before
-    @Throws(Exception::class)
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        DaggerAppComponent.builder().application(App()).repository(RepositoryModule()).build()
-    }
 
     @Test
     fun validateRepo() {
@@ -40,7 +33,7 @@ class ExampleUnitTest {
     @Test
     fun getMarketPrice() {
         repository?.getMarketPrice()?.observeForever {
-
+            assert(true) { it }
         }
     }
 }
